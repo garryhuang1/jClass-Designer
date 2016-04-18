@@ -1,0 +1,43 @@
+
+{
+    "class":[
+        {
+            "class name":"asdlfkj",
+            "package name":"lkjsdaf",
+            "class name text":"asdlfkj",
+            "variable name text":"",
+            "method name text":"",
+            "x":166.33333333333334,
+            "y":102.0,
+            "var name":"[]",
+            "var type":"[]",
+            "var static":"[]",
+            "var access":"[]",
+            "method names":"[]",
+            "method return":"[]",
+            "method static":"[]",
+            "method abstract":"[]",
+            "method access":"[]",
+            "method arg":"[]"
+        },
+        {
+            "class name":"qweewra",
+            "package name":"asdf",
+            "class name text":"qweewra",
+            "variable name text":"",
+            "method name text":"",
+            "x":492.3333333333333,
+            "y":118.0,
+            "var name":"[]",
+            "var type":"[]",
+            "var static":"[]",
+            "var access":"[]",
+            "method names":"[]",
+            "method return":"[]",
+            "method static":"[]",
+            "method abstract":"[]",
+            "method access":"[]",
+            "method arg":"[]"
+        }
+    ]
+}
