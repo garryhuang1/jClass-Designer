@@ -28,17 +28,8 @@ public class UMLClass {
     double startX;
     double startY;
     
-    ArrayList<String> varName;
-    ArrayList<String> varType;
-    ArrayList<Boolean> varStatic;
-    ArrayList<String> varAccess;
-    
-    ArrayList<String> metName;
-    ArrayList<String> metReturn;
-    ArrayList<Boolean> metStatic;
-    ArrayList<Boolean> metAbstract;
-    ArrayList<String> metAccess;
-    ArrayList<String> arg;
+    ArrayList<Variable> variables;    
+    ArrayList<Method> methods;
     Effect selected;
     
     Text classNameText;
@@ -47,31 +38,47 @@ public class UMLClass {
     public UMLClass(double initX, double initY){
         AppTemplate app;
         
-        varName = new ArrayList<String>();
-        varType = new ArrayList<String>();
-        varStatic = new ArrayList<Boolean>();
-        varAccess = new ArrayList<String>();
-    
-        metName = new ArrayList<String>();
-        metReturn = new ArrayList<String>();
-        metStatic = new ArrayList<Boolean>();
-        metAbstract = new ArrayList<Boolean>();
-        metAccess = new ArrayList<String>();
-        arg = new ArrayList<String>();
+        variables = new ArrayList<Variable>();
+        methods = new ArrayList<Method>();
+        
         
         /* HARD CODE */
-        varName.add("HELLO");
+        
+        /*varName.add("HELLO");
         varType.add("String");
         varAccess.add("public");
         varStatic.add(true);
         metName.add("kek");
         metReturn.add("int");
         metStatic.add(true);
-        metAbstract.add(false);
+        metAbstract.add(true);
         metAccess.add("public");
-        arg.add("int");
+        arg.add("int");*/
         
+        Variable a = new Variable();
+        a.setName("HELLO");
+        a.setType("String");
+        a.setAccess("public");
+        a.setStatic(true);
+        variables.add(a);
+        Method b = new Method();
+        b.setName("testMethod");
+        b.setReturn("String");
+        b.setStatic(false);
+        b.setAbstract(false);
+        b.setAccess("public");
+        b.addArg("int");
+        b.addArg("string");
+        Method c = new Method();
+        c.setName("testMethod2");
+        c.setReturn("String");
+        c.setStatic(false);
+        c.setAbstract(false);
+        c.setAccess("public");
+        c.addArg("Boolean");
         
+        methods.add(b);
+        methods.add(c);
         
         isSelected = false;
         className = "";
@@ -184,34 +191,11 @@ public class UMLClass {
     public Text getMethodText(){
         return methodName;
     }
-    public ArrayList<String> getVarName(){
-        return varName;
+    public ArrayList<Method> getMethods(){
+        return methods;
     }
-    public ArrayList<String> getVarType(){
-        return varType;
+    public ArrayList<Variable> getVariables(){
+        return variables;
     }
-    public ArrayList<Boolean> getVarStatic(){
-        return varStatic;
-    }
-    public ArrayList<String> getVarAccess(){
-        return varAccess;
-    }
-    public ArrayList<String> getMetName(){
-        return metName;
-    }
-    public ArrayList<String> getMetReturn(){
-        return metReturn;
-    }
-    public ArrayList<Boolean> getMetStatic(){
-        return metStatic;
-    }
-    public ArrayList<Boolean> getMetAbstract(){
-        return metAbstract;
-    }
-    public ArrayList<String> getMetAccess(){
-        return metAccess;
-    }
-    public ArrayList<String> getMetArg(){
-        return arg;
-    }
+    
 }

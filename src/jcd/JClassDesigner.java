@@ -13,6 +13,7 @@ import jcf.components.AppWorkspaceComponent;
 import static javafx.application.Application.launch;
 import static javafx.application.Application.launch;
 import static javafx.application.Application.launch;
+import jcd.test_bed.TestSave;
 
 /**
  * This class serves as the application class for our Web Page Maker program. 
@@ -27,6 +28,7 @@ import static javafx.application.Application.launch;
  * @version 1.0
  */
 public class JClassDesigner extends AppTemplate {
+    
     /**
      * This builder provides methods for properly setting up all
      * the custom objects needed to run this application. Note that
@@ -38,7 +40,8 @@ public class JClassDesigner extends AppTemplate {
      */
     @Override
     public AppComponentsBuilder makeAppBuilderHook() {
-	return new AppComponentsBuilder() {
+
+        return new AppComponentsBuilder() {
 	    /**
 	     * Makes the returns the data component for the app.
 	     * 
@@ -80,6 +83,9 @@ public class JClassDesigner extends AppTemplate {
 	    public AppWorkspaceComponent buildWorkspaceComponent() throws Exception {
 		return new Workspace(JClassDesigner.this);
 	    }
+            
+            
+            
 	};
     }
     
@@ -91,6 +97,8 @@ public class JClassDesigner extends AppTemplate {
      */
     public static void main(String[] args) {
 	Locale.setDefault(Locale.US);
+        
 	launch(args);
+
     }
 }

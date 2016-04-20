@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,11 +15,15 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import jcd.data.DataManager;
+import jcd.data.Method;
 import jcd.data.UMLClass;
+import jcd.data.Variable;
 import jcf.AppTemplate;
 import jcf.components.AppDataComponent;
 import jcf.components.AppFileComponent;
@@ -49,6 +52,7 @@ public class FileManager implements AppFileComponent {
      */
     @Override
     public void saveData(AppDataComponent data, String filePath) throws IOException {
+        System.out.println(filePath);
         StringWriter sw = new StringWriter();
         DataManager dataManager = (DataManager)data;
         ArrayList<UMLClass> cList = dataManager.getClassList();
@@ -77,7 +81,35 @@ public class FileManager implements AppFileComponent {
 	pw.write(prettyPrinted);
 	pw.close();
     }
-      
+    public void saveData(ArrayList<UMLClass> umlList, String filePath) throws IOException {
+        System.out.println(filePath);
+        StringWriter sw = new StringWriter();
+        ArrayList<UMLClass> cList = umlList;
+        
+        JsonArrayBuilder classBuilder = Json.createArrayBuilder();
+        fillArray(cList, classBuilder);
+        JsonArray nodesArray = classBuilder.build();
+        
+        JsonObject dataManagerJSO = Json.createObjectBuilder()
+                .add("class", nodesArray)
+                .build();
+
+	Map<String, Object> properties = new HashMap<>(1);
+	properties.put(JsonGenerator.PRETTY_PRINTING, true);
+	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+	JsonWriter jsonWriter = writerFactory.createWriter(sw);
+	jsonWriter.writeObject(dataManagerJSO);
+	jsonWriter.close();
+
+	// INIT THE WRITER
+	OutputStream os = new FileOutputStream(filePath);
+	JsonWriter jsonFileWriter = Json.createWriter(os);
+	jsonFileWriter.writeObject(dataManagerJSO);
+	String prettyPrinted = sw.toString();
+	PrintWriter pw = new PrintWriter(filePath);
+	pw.write(prettyPrinted);
+	pw.close();
+    }  
     /**
      * This method loads data from a JSON formatted file into the data 
      * management component and then forces the updating of the workspace
@@ -94,10 +126,36 @@ public class FileManager implements AppFileComponent {
     private void fillArray(ArrayList<UMLClass> cList, JsonArrayBuilder arrayBuilder){
         for(UMLClass a : cList){
             JsonObject classObject = makeClassObject(a);
+            JsonArrayBuilder helperArray = Json.createArrayBuilder();
             arrayBuilder.add(classObject);
+            
+            /*for(Variable b : a.getVariables()){
+                JsonObject variableObject = makeVariableObject(b);
+                helperArray.add(variableObject);
+            }
+            for(Method b : a.getMethods()){
+                JsonObject methodObject = makeMethodObject(b);
+                helperArray.add(methodObject);
+            }*/
+        }
+    }
+    private void fillVariableArray(UMLClass a, JsonArrayBuilder arrayBuilder){
+        for(Variable b : a.getVariables()){
+            JsonObject variableObject = makeVariableObject(b);
+            arrayBuilder.add(variableObject);
+        }
+    }
+    private void fillMethodArray(UMLClass a, JsonArrayBuilder arrayBuilder) {
+        for(Method b : a.getMethods()){
+            JsonObject methodObject = makeMethodObject(b);
+            arrayBuilder.add(methodObject);
         }
     }
     private JsonObject makeClassObject(UMLClass a){
+        JsonArrayBuilder variableArray = Json.createArrayBuilder();
+        fillVariableArray(a, variableArray);
+        JsonArrayBuilder methodArray = Json.createArrayBuilder();
+        fillMethodArray(a, methodArray);
         JsonObject jso = Json.createObjectBuilder()
                 .add("class name", a.getClassName())
                 .add("package name", a.getPackageName())
@@ -106,16 +164,28 @@ public class FileManager implements AppFileComponent {
                 .add("method name text", a.getMethodText().getText())
                 .add("x", a.getX())
                 .add("y", a.getY())
-                .add("var name", a.getVarName().toString())
-                .add("var type", a.getVarType().toString())
-                .add("var static", a.getVarStatic().toString())
-                .add("var access", a.getVarAccess().toString())
-                .add("method names", a.getMetName().toString())
-                .add("method return", a.getMetReturn().toString())
-                .add("method static", a.getMetStatic().toString())
-                .add("method abstract", a.getMetAbstract().toString())
-                .add("method access", a.getMetAccess().toString())
-                .add("method arg", a.getMetArg().toString())
+                .add("variable", variableArray)
+                .add("method", methodArray)
+                .build();
+        return jso;
+    }
+    private JsonObject makeVariableObject(Variable b){
+        JsonObject jso = Json.createObjectBuilder()
+                .add("variable name", b.getName())
+                .add("variable type", b.getType())
+                .add("variable static", b.getStatic())
+                .add("variable access", b.getAccess())
+                .build();
+        return jso;
+    }
+    private JsonObject makeMethodObject(Method b){
+        JsonObject jso = Json.createObjectBuilder()
+                .add("method name", b.getName())
+                .add("method return", b.getReturn())
+                .add("method static", b.getStatic())
+                .add("method abstract", b.getAbstract())
+                .add("method access", b.getAccess())
+                .add("method arg", b.getArg().toString())
                 .build();
         return jso;
     }
@@ -140,7 +210,7 @@ public class FileManager implements AppFileComponent {
 	return json;
     }
     public void exportCode(AppDataComponent data, String filePath) throws IOException{
-        DataManager dataManager = (DataManager) data;
+        /*DataManager dataManager = (DataManager) data;
         ArrayList<UMLClass> classList = dataManager.getClassList();
         PrintWriter pw = new PrintWriter(filePath);
         for(int i = 0; i < classList.size(); i++){
@@ -190,18 +260,31 @@ public class FileManager implements AppFileComponent {
             }
             pw.write("}\n");
         }
-        pw.close();
+        pw.close();*/
     }
+    
     private void loadClass(JsonArray jsonArray, DataManager dataManager){
         for(int i = 0; i < jsonArray.size(); i++){
+            System.out.println(jsonArray.size());
             JsonObject classJso = jsonArray.getJsonObject(i);
             String className = classJso.getString("class name");
+
             String packageName = classJso.getString("package name");
             String classNameText = classJso.getString("class name text");
             String variableNameText = classJso.getString("variable name text");
             String methodNameText = classJso.getString("method name text");
+            
             double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
             double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
+            
+     
+            
+            JsonArray variableArray = classJso.getJsonArray("variable");
+            for(int z = 0; z < variableArray.size(); z++){
+                JsonObject variableJso = variableArray.getJsonObject(z);
+                String variableName = variableJso.getString("variable name");
+                
+            }
             
             dataManager.makeClass(className, packageName, classNameText, 
                     variableNameText, methodNameText, x, y);

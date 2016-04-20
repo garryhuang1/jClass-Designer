@@ -30,7 +30,6 @@ public class DataManager implements AppDataComponent {
 	// KEEP THE APP FOR LATER
 	app = initApp;
         classList = new ArrayList();
-       
     }
     public ArrayList<UMLClass> getClassList(){
         return classList;
@@ -105,6 +104,8 @@ public class DataManager implements AppDataComponent {
      * tags, like html, head, and body such that the user can begin editing a
      * page.
      */
+    
+   
     @Override
     public void reset() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();
