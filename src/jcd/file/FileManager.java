@@ -139,6 +139,59 @@ public class FileManager implements AppFileComponent {
 	is.close();
 	return json;
     }
+    public void exportCode(AppDataComponent data, String filePath) throws IOException{
+        DataManager dataManager = (DataManager) data;
+        ArrayList<UMLClass> classList = dataManager.getClassList();
+        PrintWriter pw = new PrintWriter(filePath);
+        for(int i = 0; i < classList.size(); i++){
+            ArrayList<String> varType = classList.get(i).getVarType();
+            ArrayList<String> varName = classList.get(i).getVarName();
+            ArrayList<String> varAccess = classList.get(i).getVarAccess();
+            ArrayList<Boolean> varStatic = classList.get(i).getVarStatic();
+            
+            ArrayList<String> metName = classList.get(i).getMetName();
+            ArrayList<String> metReturn = classList.get(i).getMetReturn();
+            ArrayList<Boolean> metStatic = classList.get(i).getMetStatic();
+            ArrayList<Boolean> metAbstract = classList.get(i).getMetAbstract();
+            ArrayList<String> metAccess = classList.get(i).getMetAccess();
+            ArrayList<String> metArg = classList.get(i).getMetArg();
+            
+            pw.write("package " + classList.get(i).getPackageName() + ";\n");
+            pw.write("public class " + classList.get(i).getClassName() + "{\n");
+            for(int x = 0; x < varName.size(); x++){
+                pw.write("\t" + varAccess.get(x) + " ");
+                if(varStatic.get(x) == true){
+                    pw.write("static ");
+                }
+                pw.write(varType.get(x) + " ");
+                pw.write(varName.get(x) + ";\n");
+            }
+            
+            for(int x = 0; x < metName.size() ; x++){
+                if(metAccess.get(x).toString().equals("private") && metAbstract.get(x) == true){
+                    pw.write("\tabstract ");
+                }
+                else if(!metAccess.get(x).toString().equals("private") && metAbstract.get(x) == true){
+                    pw.write("\t" + metAccess.get(x) + " abstract ");
+                }
+                else{
+                    pw.write("\t" + metAccess.get(x) + " ");
+                }
+                if(metStatic.get(x) == true && metAbstract.get(x) == false){
+                    pw.write("static ");
+                }
+                pw.write(metReturn.get(x) + " ");
+                pw.write(metName.get(x) + "(");
+                pw.write(metArg.get(x)+ ") {\n");
+                if(!metReturn.get(x).toString().equals("void")){
+                    pw.write("\t\treturn " + metReturn.get(x) + "\n");
+                }
+                pw.write("\t}\n");
+            }
+            pw.write("}\n");
+        }
+        pw.close();
+    }
     private void loadClass(JsonArray jsonArray, DataManager dataManager){
         for(int i = 0; i < jsonArray.size(); i++){
             JsonObject classJso = jsonArray.getJsonObject(i);

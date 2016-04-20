@@ -58,6 +58,21 @@ public class UMLClass {
         metAbstract = new ArrayList<Boolean>();
         metAccess = new ArrayList<String>();
         arg = new ArrayList<String>();
+        
+        /* HARD CODE */
+        varName.add("HELLO");
+        varType.add("String");
+        varAccess.add("public");
+        varStatic.add(true);
+        metName.add("kek");
+        metReturn.add("int");
+        metStatic.add(true);
+        metAbstract.add(false);
+        metAccess.add("public");
+        arg.add("int");
+        
+        
+        
         isSelected = false;
         className = "";
         packageName = "";
