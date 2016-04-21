@@ -30,6 +30,13 @@ public class TestSave{
         UMLClass dTask = new UMLClass(500, 0);
         UMLClass pHandler = new UMLClass(100, 400);
         UMLClass sHandler = new UMLClass(300, 400);
+        
+        tExample.setPackageName("tExample");
+        cTask.setPackageName("tExample.cTask");
+        dTask.setPackageName("tExample.cTask.dTask");
+        pHandler.setPackageName("tExample");
+        sHandler.setPackageName("tExample");
+        
         tExample.setClassName("ThreadExample");
         cTask.setClassName("CounterTask");
         cTask.setParent(tExample);
@@ -218,8 +225,8 @@ public class TestSave{
         
         ArrayList<UMLClass> umlList = new ArrayList<UMLClass>();
         umlList.add(tExample);
-        umlList.add(dTask);
         umlList.add(cTask);
+        umlList.add(dTask);
         umlList.add(pHandler);
         umlList.add(sHandler);
         try{
@@ -228,6 +235,22 @@ public class TestSave{
         catch(IOException ioe){
             ioe.printStackTrace();
         }
+        String filePath = "./hello";
+        String packageName = "jtest.test1";
+        do{
+            int check = packageName.indexOf('.');
+            if(check == -1){
+                filePath += "/" + packageName;
+                packageName = "";
+            }
+            else{
+                String temp = packageName.substring(0, check);
+                packageName = packageName.substring(check+1, packageName.length());
+                filePath += "/" + temp;
+            }
+            
+        }while(packageName.isEmpty()==false);
+        System.out.println(filePath);
     }
     
 }

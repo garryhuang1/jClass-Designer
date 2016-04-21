@@ -1,0 +1,9 @@
+package tExample.cTask;
+public class CounterTask extends ThreadExample{
+	private ThreadExample app;
+	private int counter;
+	public  CounterTask(ThreadExample)
+	}
+	protected void call()
+	}
+}

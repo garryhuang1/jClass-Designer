@@ -1,0 +1,8 @@
+package tExample;
+public class PauseHandler extends ThreadExample{
+	private ThreadExample app;
+	public  PauseHandler(ThreadExample)
+	}
+	public void handle(Event)
+	}
+}

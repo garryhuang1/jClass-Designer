@@ -1,0 +1,9 @@
+package tExample.cTask.dTask;
+public class DateTask extends ThreadExample{
+	private ThreadExample app;
+	private Date now;
+	public  DateTask(ThreadExample)
+	}
+	protected void call()
+	}
+}

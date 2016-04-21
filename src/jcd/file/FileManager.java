@@ -1,5 +1,6 @@
 package jcd.file;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -236,11 +237,36 @@ public class FileManager implements AppFileComponent {
         for(int i = 0; i < classList.size(); i++){
             ArrayList<Variable> varList = classList.get(i).getVariables();
             ArrayList<Method> metList = classList.get(i).getMethods();
+            String packageName = classList.get(i).getPackageName();
+            String tempFilePath = filePath;
+            do{
+                int check = packageName.indexOf(".");
+                if(check == -1){
+                    tempFilePath += "/" + packageName;
+                    packageName = "";
+                }
+                else{
+                    String temp = packageName.substring(0, check);
+                    packageName = packageName.substring(check+1, packageName.length());
+                    tempFilePath += "/" + temp;
+                }
+            }while(packageName.isEmpty()==false);
+            System.out.println(tempFilePath);
+            System.out.println(filePath);
+            File newFile = new File(tempFilePath);
+            newFile.mkdir();
+            pw = new PrintWriter( newFile + "/" + classList.get(i).getClassName());
             
-            pw = new PrintWriter("./" + filePath + "/" +classList.get(i).getClassName());
+            if(!classList.get(i).getPackageName().isEmpty()){
+                pw.write("package " + classList.get(i).getPackageName() + ";\n");
+            }
+            pw.write("public class " + classList.get(i).getClassName());
+            if(classList.get(i).getParent() != null){
+                pw.write(" extends " + classList.get(i).getParent().getClassName());
+            }
+                pw.write("{\n");
             
-            pw.write("package " + classList.get(i).getPackageName() + ";\n");
-            pw.write("public class " + classList.get(i).getClassName() + "{\n");
+            
             for(int x = 0; x < varList.size(); x++){
                 pw.write("\t" + varList.get(x).getAccess() + " ");
                 if(varList.get(x).getStatic() == true){

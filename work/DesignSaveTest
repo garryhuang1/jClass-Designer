@@ -3,7 +3,7 @@
     "class":[
         {
             "class name":"ThreadExample",
-            "package name":"",
+            "package name":"tExample",
             "class name text":"ThreadExample",
             "variable name text":"",
             "method name text":"",
@@ -175,50 +175,8 @@
             ]
         },
         {
-            "class name":"DateTask",
-            "package name":"",
-            "parent":"ThreadExample",
-            "class name text":"DateTask",
-            "variable name text":"",
-            "method name text":"",
-            "x":500.0,
-            "y":0.0,
-            "variable":[
-                {
-                    "variable name":"app",
-                    "variable type":"ThreadExample",
-                    "variable static":false,
-                    "variable access":"private"
-                },
-                {
-                    "variable name":"now",
-                    "variable type":"Date",
-                    "variable static":false,
-                    "variable access":"private"
-                }
-            ],
-            "method":[
-                {
-                    "method name":"DateTask",
-                    "method return":"",
-                    "method static":false,
-                    "method abstract":false,
-                    "method access":"public",
-                    "method arg":"[ThreadExample]"
-                },
-                {
-                    "method name":"call",
-                    "method return":"void",
-                    "method static":false,
-                    "method abstract":false,
-                    "method access":"protected",
-                    "method arg":"[]"
-                }
-            ]
-        },
-        {
             "class name":"CounterTask",
-            "package name":"",
+            "package name":"tExample.cTask",
             "parent":"ThreadExample",
             "class name text":"CounterTask",
             "variable name text":"",
@@ -259,8 +217,50 @@
             ]
         },
         {
+            "class name":"DateTask",
+            "package name":"tExample.cTask.dTask",
+            "parent":"ThreadExample",
+            "class name text":"DateTask",
+            "variable name text":"",
+            "method name text":"",
+            "x":500.0,
+            "y":0.0,
+            "variable":[
+                {
+                    "variable name":"app",
+                    "variable type":"ThreadExample",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"now",
+                    "variable type":"Date",
+                    "variable static":false,
+                    "variable access":"private"
+                }
+            ],
+            "method":[
+                {
+                    "method name":"DateTask",
+                    "method return":"",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[ThreadExample]"
+                },
+                {
+                    "method name":"call",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"protected",
+                    "method arg":"[]"
+                }
+            ]
+        },
+        {
             "class name":"PauseHandler",
-            "package name":"",
+            "package name":"tExample",
             "parent":"ThreadExample",
             "class name text":"PauseHandler",
             "variable name text":"",
