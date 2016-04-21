@@ -3,102 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jcd.test_bed;
-
+package jcd.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import jcd.JClassDesigner;
-import jcd.data.DataManager;
-import jcd.data.Method;
-import jcd.data.UMLClass;
-import jcd.data.Variable;
 import jcd.file.FileManager;
-import jcf.AppTemplate;
-import jcf.components.AppDataComponent;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author Garry Huang
  */
-public class TestSave{
-    
-    public static void main(String[] args){
-       FileManager fileManager = new FileManager();
+public class TestOne {
+    ArrayList<UMLClass> umlList = new ArrayList<UMLClass>();
+    ArrayList<UMLClass> testList = new ArrayList<UMLClass>();
+    public TestOne(){
+        FileManager fileManager = new FileManager();
         UMLClass tExample = new UMLClass(100,0);
-        UMLClass cTask = new UMLClass(300, 0);
-        UMLClass dTask = new UMLClass(500, 0);
-        UMLClass pHandler = new UMLClass(100, 400);
-        UMLClass sHandler = new UMLClass(300, 400);
         tExample.setClassName("ThreadExample");
-        cTask.setClassName("CounterTask");
-        cTask.setParent(tExample);
-        dTask.setClassName("DateTask");
-        dTask.setParent(tExample);
-        pHandler.setClassName("PauseHandler");
-        pHandler.setParent(tExample);
-        sHandler.setClassName("StartHandler");
-        sHandler.setParent(tExample);
-        //----------------------------COUNTER TASK--------------------------
-        Variable app = new Variable();
-        app.setName("app");
-        app.setType("ThreadExample");
-        cTask.addVariable(app);
         
-        Variable counter = new Variable();
-        counter.setName("counter");
-        counter.setType("int");
-        cTask.addVariable(counter);
-        
-        Method counterCounterTask = new Method();
-        counterCounterTask.setName("CounterTask");
-        counterCounterTask.setReturn("");
-        counterCounterTask.addArg("ThreadExample");
-        cTask.addMethod(counterCounterTask);
-        
-        Method counterCall = new Method();
-        counterCall.setName("call");
-        counterCall.setAccess("protected");
-        cTask.addMethod(counterCall);
-        //----------------------------DATE TASK-----------------------------------
-        dTask.addVariable(app);
-        
-        Variable now = new Variable();
-        now.setName("now");
-        now.setType("Date");
-        dTask.addVariable(now);
-        
-        Method dateTaskMethod = new Method();
-        dateTaskMethod.setName("DateTask");
-        dateTaskMethod.setReturn("");
-        dateTaskMethod.addArg("ThreadExample");
-        dTask.addMethod(dateTaskMethod);
-        
-        dTask.addMethod(counterCall);
-        //-----------------------------PAUSE HANDLER----------------------------------
-        pHandler.addVariable(app);
-        
-        Method pauseHandler = new Method();
-        pauseHandler.setName("PauseHandler");
-        pauseHandler.setReturn("");
-        pauseHandler.addArg("ThreadExample");
-        pHandler.addMethod(pauseHandler);
-        
-        Method handle = new Method();
-        handle.setName("handle");
-        handle.addArg("Event");
-        pHandler.addMethod(handle);
-        //----------------------------START HANDLER---------------------------------------
-        sHandler.addVariable(app);
-        
-        Method startHandler = new Method();
-        startHandler.setName("StartHandler");
-        startHandler.setReturn("");
-        startHandler.addArg("ThreadExample");
-        sHandler.addMethod(startHandler);
-        
-        sHandler.addMethod(handle);
-        //-----------------------------THREAD EXAMPLE--------------------------------------------
         Variable window = new Variable();
         window.setName("window");
         window.setType("Stage");
@@ -214,18 +142,36 @@ public class TestSave{
         main.addArg("String[]");
         tExample.addMethod(main);
         
-        ArrayList<UMLClass> umlList = new ArrayList<UMLClass>();
+        
         umlList.add(tExample);
-        umlList.add(dTask);
-        umlList.add(cTask);
-        umlList.add(pHandler);
-        umlList.add(sHandler);
+
         try{
             fileManager.saveData(umlList, "./work/DesignSaveTest");
+            testList = fileManager.loadData("./work/DesignSaveTest");
         }
         catch(IOException ioe){
             ioe.printStackTrace();
         }
     }
-    
+    @Test
+    public void checkVar1(){
+        System.out.println("* Check variable name 1");
+        assertEquals("window", testList.get(0).getVariables().get(0).getName());
+    }
+    @Test
+    public void checkVar2(){
+        System.out.println("* Check variable type 1");
+        assertEquals("Stage", testList.get(0).getVariables().get(0).getType());
+    }
+    @Test
+    public void checkMet1(){
+        System.out.println("* Check Method Name 1");
+        assertEquals("start", testList.get(0).getMethods().get(0).getName());
+    }
+    @Test
+    public void checkMet2(){
+        System.out.println("* Check method argument");
+        int end = testList.get(0).getMethods().get(0).getArg().toString().length();
+        assertEquals("Stage", testList.get(0).getMethods().get(0).getArg().toString().substring(1, end-1));
+    }
 }

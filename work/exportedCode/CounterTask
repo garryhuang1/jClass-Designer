@@ -1,0 +1,9 @@
+package ;
+public class CounterTask{
+	private ThreadExample app;
+	private int counter;
+	public  CounterTask(ThreadExample)
+	}
+	protected void call()
+	}
+}

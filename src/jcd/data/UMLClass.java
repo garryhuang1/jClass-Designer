@@ -6,11 +6,13 @@
 package jcd.data;
 
 import java.util.ArrayList;
+import javafx.geometry.Point2D;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import jcf.AppTemplate;
 
@@ -22,7 +24,7 @@ public class UMLClass {
     boolean isSelected;
     String className;
     String packageName;
-    String parentName;
+    UMLClass parent;
     VBox displayClass;
     
     double startX;
@@ -35,44 +37,24 @@ public class UMLClass {
     Text classNameText;
     Text variableName;
     Text methodName;
+    
+    Line toParent1;
+    Line toParent2;
+    Point2D point1;
+    Point2D point2;
+    Point2D point3;
     public UMLClass(double initX, double initY){
-        AppTemplate app;
+
         
         variables = new ArrayList<Variable>();
         methods = new ArrayList<Method>();
         
         
-        /* HARD CODE */
-        
-        Variable a = new Variable();
-        a.setName("HELLO");
-        a.setType("String");
-        a.setAccess("public");
-        a.setStatic(true);
-        variables.add(a);
-        Method b = new Method();
-        b.setName("testMethod");
-        b.setReturn("String");
-        b.setStatic(false);
-        b.setAbstract(false);
-        b.setAccess("public");
-        b.addArg("int");
-        b.addArg("String");
-        Method c = new Method();
-        c.setName("testMethod2");
-        c.setReturn("String");
-        c.setStatic(false);
-        c.setAbstract(false);
-        c.setAccess("public");
-        c.addArg("Boolean");
-        
-        methods.add(b);
-        methods.add(c);
         
         isSelected = false;
         className = "";
         packageName = "";
-        parentName = "";
+        parent = null;
         
         startX = initX;
         startY = initY;
@@ -154,11 +136,11 @@ public class UMLClass {
     public void setMethodNameText(String initText){
         methodName.setText(initText);
     }
-    public void setParent(String initClass){
-        parentName = initClass;
+    public void setParent(UMLClass initClass){
+        parent = initClass;  
     }
-    public String getParent(){
-        return parentName;
+    public UMLClass getParent(){
+        return parent;
     }
     public String getClassName(){
         return className;

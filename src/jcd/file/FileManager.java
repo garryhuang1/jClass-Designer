@@ -52,7 +52,6 @@ public class FileManager implements AppFileComponent {
      */
     @Override
     public void saveData(AppDataComponent data, String filePath) throws IOException {
-        System.out.println(filePath);
         StringWriter sw = new StringWriter();
         DataManager dataManager = (DataManager)data;
         ArrayList<UMLClass> cList = dataManager.getClassList();
@@ -82,7 +81,6 @@ public class FileManager implements AppFileComponent {
 	pw.close();
     }
     public void saveData(ArrayList<UMLClass> umlList, String filePath) throws IOException {
-        System.out.println(filePath);
         StringWriter sw = new StringWriter();
         ArrayList<UMLClass> cList = umlList;
         
@@ -155,19 +153,35 @@ public class FileManager implements AppFileComponent {
         JsonArrayBuilder variableArray = Json.createArrayBuilder();
         fillVariableArray(a, variableArray);
         JsonArrayBuilder methodArray = Json.createArrayBuilder();
+        JsonObject jso;
         fillMethodArray(a, methodArray);
-        JsonObject jso = Json.createObjectBuilder()
-                .add("class name", a.getClassName())
-                .add("package name", a.getPackageName())
-                .add("parent", a.getParent())
-                .add("class name text", a.getClassText().getText())
-                .add("variable name text", a.getVariableText().getText())
-                .add("method name text", a.getMethodText().getText())
-                .add("x", a.getX())
-                .add("y", a.getY())
-                .add("variable", variableArray)
-                .add("method", methodArray)
-                .build();
+        if(a.getParent() != null){
+             jso = Json.createObjectBuilder()
+                    .add("class name", a.getClassName())
+                    .add("package name", a.getPackageName())
+                    .add("parent", a.getParent().getClassName())
+                    .add("class name text", a.getClassText().getText())
+                    .add("variable name text", a.getVariableText().getText())
+                    .add("method name text", a.getMethodText().getText())
+                    .add("x", a.getX())
+                    .add("y", a.getY())
+                    .add("variable", variableArray)
+                    .add("method", methodArray)
+                    .build();
+        }
+        else{
+            jso = Json.createObjectBuilder()
+                    .add("class name", a.getClassName())
+                    .add("package name", a.getPackageName())
+                    .add("class name text", a.getClassText().getText())
+                    .add("variable name text", a.getVariableText().getText())
+                    .add("method name text", a.getMethodText().getText())
+                    .add("x", a.getX())
+                    .add("y", a.getY())
+                    .add("variable", variableArray)
+                    .add("method", methodArray)
+                    .build();
+        }
         return jso;
     }
     private JsonObject makeVariableObject(Variable b){
@@ -200,6 +214,11 @@ public class FileManager implements AppFileComponent {
         loadClass(jsonClass, dataManager);
         
     }
+    public ArrayList<UMLClass> loadData(String filePath) throws IOException{
+        JsonObject json = loadJSONFile(filePath);
+        JsonArray jsonClass = json.getJsonArray("class");
+        return loadClass(jsonClass);
+    }
 
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
@@ -218,11 +237,11 @@ public class FileManager implements AppFileComponent {
             ArrayList<Variable> varList = classList.get(i).getVariables();
             ArrayList<Method> metList = classList.get(i).getMethods();
             
-            pw = new PrintWriter("./work/" + classList.get(i).getClassName());
+            pw = new PrintWriter("./work/exportedCode/" + classList.get(i).getClassName());
             
             pw.write("package " + classList.get(i).getPackageName() + ";\n");
             pw.write("public class " + classList.get(i).getClassName() + "{\n");
-            for(int x = 0; x < varList.size()/2; x++){
+            for(int x = 0; x < varList.size(); x++){
                 pw.write("\t" + varList.get(x).getAccess() + " ");
                 if(varList.get(x).getStatic() == true){
                     pw.write("static ");
@@ -231,7 +250,7 @@ public class FileManager implements AppFileComponent {
                 pw.write(varList.get(x).getName() + ";\n");
             }
             
-            for(int x = 0; x < metList.size()/2 ; x++){
+            for(int x = 0; x < metList.size() ; x++){
                 if(metList.get(x).getAccess().equals("private") && metList.get(x).getAbstract() == true){
                     pw.write("\tabstract ");
                 }
@@ -255,10 +274,12 @@ public class FileManager implements AppFileComponent {
                         pw.write(", ");
                     }
                 }
+                
                 pw.write("\n");
-                if(!metList.get(x).getReturn().equals("void")){
+                if(!metList.get(x).getReturn().equals("void") && !metList.get(x).getReturn().equals("")){
                     pw.write("\t\treturn " + metList.get(x).getReturn()+ ";\n");
                 }
+                
                 pw.write("\t}\n");
             }
             pw.write("}\n");
@@ -266,7 +287,54 @@ public class FileManager implements AppFileComponent {
         }
         
     }
-    
+    private ArrayList<UMLClass> loadClass(JsonArray jsonArray){
+        ArrayList<UMLClass> hello = new ArrayList<UMLClass>();
+        for(int i = 0; i < jsonArray.size(); i++){
+            UMLClass a = new UMLClass(0,0);
+            JsonObject classJso = jsonArray.getJsonObject(i);
+            a.setClassName(classJso.getString("class name"));
+
+            a.setPackageName(classJso.getString("package name"));
+
+            
+            //a.setParent(classJso.getString("parent"));
+            a.setClassNameText(classJso.getString("class name text"));
+            a.setVariableNameText(classJso.getString("variable name text"));
+            a.setMethodNameText(classJso.getString("method name text"));
+            
+            double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
+            double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
+            
+            a.setNewCoordinate(x, y);
+            JsonArray variableArray = classJso.getJsonArray("variable");
+            JsonArray methodArray = classJso.getJsonArray("method");
+            
+            for(int z = 0; z < variableArray.size(); z++){
+                Variable var = new Variable();
+                JsonObject variableJso = variableArray.getJsonObject(z);
+                var.setName(variableJso.getString("variable name"));
+                var.setType(variableJso.getString("variable type"));
+                var.setStatic(variableJso.getBoolean("variable static"));
+                var.setAccess(variableJso.getString("variable access"));
+                a.addVariable(var);
+            }
+            for(int z = 0; z < methodArray.size(); z++){
+                Method met = new Method();
+                JsonObject methodJso = methodArray.getJsonObject(z);
+                met.setName(methodJso.getString("method name"));
+                met.setReturn(methodJso.getString("method return"));
+                met.setStatic(methodJso.getBoolean("method static"));
+                met.setAbstract(methodJso.getBoolean("method abstract"));
+                met.setAccess(methodJso.getString("method access"));
+                int end = methodJso.getString("method arg").length();
+                met.addArg(methodJso.getString("method arg").toString().substring(1, end-1));
+                a.addMethod(met);
+            }
+            
+            hello.add(a);
+        }
+        return hello;
+    }
     private void loadClass(JsonArray jsonArray, DataManager dataManager){
         for(int i = 0; i < jsonArray.size(); i++){
             JsonObject classJso = jsonArray.getJsonObject(i);
@@ -281,8 +349,8 @@ public class FileManager implements AppFileComponent {
             double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
             double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
             
-            dataManager.makeClass(className, packageName, parentName,classNameText, 
-                    variableNameText, methodNameText, x, y);
+            //dataManager.makeClass(className, packageName, parentName,classNameText, 
+                    //variableNameText, methodNameText, x, y);
             JsonArray variableArray = classJso.getJsonArray("variable");
             JsonArray methodArray = classJso.getJsonArray("method");
             
@@ -303,7 +371,8 @@ public class FileManager implements AppFileComponent {
                 met.setStatic(methodJso.getBoolean("method static"));
                 met.setAbstract(methodJso.getBoolean("method abstract"));
                 met.setAccess(methodJso.getString("method access"));
-                met.addArg("method arg");
+                int end = methodJso.getString("method arg").length();
+                met.addArg(methodJso.getString("method arg").toString().substring(1, end-1));
                 dataManager.getClassList().get(i).addMethod(met);
             }
         }

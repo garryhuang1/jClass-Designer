@@ -15,6 +15,13 @@ public class Variable {
     private Boolean varStatic;
     private String varAccess;
     
+    public Variable(){
+        varName = "";
+        varType = "int";
+        varStatic = false;
+        varAccess = "private";
+    }
+    
     public void setName(String initName){
         varName = initName;
     }

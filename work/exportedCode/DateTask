@@ -1,0 +1,9 @@
+package ;
+public class DateTask{
+	private ThreadExample app;
+	private Date now;
+	public  DateTask(ThreadExample)
+	}
+	protected void call()
+	}
+}

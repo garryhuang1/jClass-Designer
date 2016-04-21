@@ -17,7 +17,16 @@ public class Method {
     private Boolean metStatic;
     private Boolean metAbstract;
     private String metAccess;
-    private ArrayList<String> arg = new ArrayList<String>();
+    private ArrayList<String> arg;
+    
+    public Method(){
+        metName = "";
+        metReturn = "void";
+        metAccess = "public";
+        metStatic = false;
+        metAbstract = false;
+        arg = new ArrayList<String>();
+    }
     
     public void setName(String initName){
         metName = initName;

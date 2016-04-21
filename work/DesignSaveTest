@@ -1,0 +1,178 @@
+
+{
+    "class":[
+        {
+            "class name":"ThreadExample",
+            "package name":"",
+            "class name text":"ThreadExample",
+            "variable name text":"",
+            "method name text":"",
+            "x":100.0,
+            "y":0.0,
+            "variable":[
+                {
+                    "variable name":"window",
+                    "variable type":"Stage",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"appPane",
+                    "variable type":"BorderPane",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"topPane",
+                    "variable type":"FlowPane",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"startButton",
+                    "variable type":"Button",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"pauseButton",
+                    "variable type":"Button",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"scrollPane",
+                    "variable type":"ScrollPane",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"textArea",
+                    "variable type":"TextArea",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"dateThread",
+                    "variable type":"Thread",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"dateTask",
+                    "variable type":"Task",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"counterThread",
+                    "variable type":"Thread",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"counterTask",
+                    "variable type":"Task",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"work",
+                    "variable type":"boolean",
+                    "variable static":false,
+                    "variable access":"private"
+                }
+            ],
+            "method":[
+                {
+                    "method name":"start",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[Stage]"
+                },
+                {
+                    "method name":"startWork",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[]"
+                },
+                {
+                    "method name":"pauseWork",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[]"
+                },
+                {
+                    "method name":"doWork",
+                    "method return":"boolean",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[]"
+                },
+                {
+                    "method name":"appendText",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[String]"
+                },
+                {
+                    "method name":"sleep",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[int]"
+                },
+                {
+                    "method name":"initLayout",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"private",
+                    "method arg":"[]"
+                },
+                {
+                    "method name":"initHandlers",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"private",
+                    "method arg":"[]"
+                },
+                {
+                    "method name":"initWindow",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"private",
+                    "method arg":"[Stage]"
+                },
+                {
+                    "method name":"initThreads",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"private",
+                    "method arg":"[]"
+                },
+                {
+                    "method name":"main",
+                    "method return":"void",
+                    "method static":true,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[String[]]"
+                }
+            ]
+        }
+    ]
+}
