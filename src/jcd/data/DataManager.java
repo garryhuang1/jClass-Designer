@@ -66,11 +66,12 @@ public class DataManager implements AppDataComponent {
             nClass.setNewCoordinate(e.getSceneX(), e.getSceneY()/2);
         });
     }
-    public void makeClass(String cName, String pName, String cNameText,
+    public void makeClass(String cName, String pName,String parentName, String cNameText,
             String vNameText, String mNameText, double initX, double initY){
         UMLClass nClass = new UMLClass(initX, initY);
         classList.add(nClass);
         nClass.setClassName(cName);
+        nClass.setParent(parentName);
         nClass.setPackageName(pName);
         nClass.setClassNameText(cNameText);
         nClass.setVariableNameText(vNameText);

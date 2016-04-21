@@ -310,7 +310,12 @@ public class Workspace extends AppWorkspaceComponent {
                 dataManager.createUMLClass(e.getX(), e.getY());
             }
             else if(gui.getAppPane().getCursor().toString().equals("DEFAULT")){
-                dataManager.getSelected().setSelected();
+                try{
+                    dataManager.getSelected().setSelected();
+                }
+                catch(Exception z){
+                    System.out.println("No objects created");
+                }
             }
         });
         
@@ -350,7 +355,6 @@ public class Workspace extends AppWorkspaceComponent {
      */
     @Override
     public void reloadWorkspace() {
-
     }
     public void setImage(ButtonBase button, String fileName) {
 	// LOAD THE ICON FROM THE PROVIDED FILE

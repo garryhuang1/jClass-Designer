@@ -22,7 +22,7 @@ public class UMLClass {
     boolean isSelected;
     String className;
     String packageName;
-    String parent;
+    String parentName;
     VBox displayClass;
     
     double startX;
@@ -44,17 +44,6 @@ public class UMLClass {
         
         /* HARD CODE */
         
-        /*varName.add("HELLO");
-        varType.add("String");
-        varAccess.add("public");
-        varStatic.add(true);
-        metName.add("kek");
-        metReturn.add("int");
-        metStatic.add(true);
-        metAbstract.add(true);
-        metAccess.add("public");
-        arg.add("int");*/
-        
         Variable a = new Variable();
         a.setName("HELLO");
         a.setType("String");
@@ -68,7 +57,7 @@ public class UMLClass {
         b.setAbstract(false);
         b.setAccess("public");
         b.addArg("int");
-        b.addArg("string");
+        b.addArg("String");
         Method c = new Method();
         c.setName("testMethod2");
         c.setReturn("String");
@@ -83,6 +72,7 @@ public class UMLClass {
         isSelected = false;
         className = "";
         packageName = "";
+        parentName = "";
         
         startX = initX;
         startY = initY;
@@ -164,6 +154,12 @@ public class UMLClass {
     public void setMethodNameText(String initText){
         methodName.setText(initText);
     }
+    public void setParent(String initClass){
+        parentName = initClass;
+    }
+    public String getParent(){
+        return parentName;
+    }
     public String getClassName(){
         return className;
     }
@@ -196,6 +192,12 @@ public class UMLClass {
     }
     public ArrayList<Variable> getVariables(){
         return variables;
+    }
+    public void addMethod(Method initMethod){
+        methods.add(initMethod);
+    }
+    public void addVariable(Variable initVariable){
+        variables.add(initVariable);
     }
     
 }

@@ -22,7 +22,7 @@ import jcf.components.AppDataComponent;
 public class TestSave{
     
     public static void main(String[] args){
-        FileManager fileManager = new FileManager();
+        /*FileManager fileManager = new FileManager();
         UMLClass tExample = new UMLClass(0,0);
         tExample.setClassName("ThreadExample");
         tExample.setNewCoordinate(100, 0);
@@ -94,7 +94,7 @@ public class TestSave{
         }
         catch(IOException ioe){
             ioe.printStackTrace();
-        }
+        }*/
     }
     
 }

@@ -58,8 +58,8 @@
 	<property name="LOAD_WORK_TITLE"		value="Select work file to load"></property>
 	<property name="WORK_FILE_EXT"			value="jcd"></property>
 	<property name="WORK_FILE_EXT_DESC"		value="jClass Design Files"></property>
-	<property name="EXPORT_CODE_EXT"        value="java"></property>
-	<property name="EXPORT_CODE_EXT_DESC"   value="java"></property>
+	<property name="EXPORT_MESSAGE"		value="The code has been exported"></property>
+	<property name="EXPORT_TITLE"		value="Exported"></property>
     </property_list>
     <property_options_list>
     </property_options_list>
