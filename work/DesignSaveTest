@@ -173,6 +173,162 @@
                     "method arg":"[String[]]"
                 }
             ]
+        },
+        {
+            "class name":"DateTask",
+            "package name":"",
+            "parent":"ThreadExample",
+            "class name text":"DateTask",
+            "variable name text":"",
+            "method name text":"",
+            "x":500.0,
+            "y":0.0,
+            "variable":[
+                {
+                    "variable name":"app",
+                    "variable type":"ThreadExample",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"now",
+                    "variable type":"Date",
+                    "variable static":false,
+                    "variable access":"private"
+                }
+            ],
+            "method":[
+                {
+                    "method name":"DateTask",
+                    "method return":"",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[ThreadExample]"
+                },
+                {
+                    "method name":"call",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"protected",
+                    "method arg":"[]"
+                }
+            ]
+        },
+        {
+            "class name":"CounterTask",
+            "package name":"",
+            "parent":"ThreadExample",
+            "class name text":"CounterTask",
+            "variable name text":"",
+            "method name text":"",
+            "x":300.0,
+            "y":0.0,
+            "variable":[
+                {
+                    "variable name":"app",
+                    "variable type":"ThreadExample",
+                    "variable static":false,
+                    "variable access":"private"
+                },
+                {
+                    "variable name":"counter",
+                    "variable type":"int",
+                    "variable static":false,
+                    "variable access":"private"
+                }
+            ],
+            "method":[
+                {
+                    "method name":"CounterTask",
+                    "method return":"",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[ThreadExample]"
+                },
+                {
+                    "method name":"call",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"protected",
+                    "method arg":"[]"
+                }
+            ]
+        },
+        {
+            "class name":"PauseHandler",
+            "package name":"",
+            "parent":"ThreadExample",
+            "class name text":"PauseHandler",
+            "variable name text":"",
+            "method name text":"",
+            "x":100.0,
+            "y":400.0,
+            "variable":[
+                {
+                    "variable name":"app",
+                    "variable type":"ThreadExample",
+                    "variable static":false,
+                    "variable access":"private"
+                }
+            ],
+            "method":[
+                {
+                    "method name":"PauseHandler",
+                    "method return":"",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[ThreadExample]"
+                },
+                {
+                    "method name":"handle",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[Event]"
+                }
+            ]
+        },
+        {
+            "class name":"StartHandler",
+            "package name":"",
+            "parent":"ThreadExample",
+            "class name text":"StartHandler",
+            "variable name text":"",
+            "method name text":"",
+            "x":300.0,
+            "y":400.0,
+            "variable":[
+                {
+                    "variable name":"app",
+                    "variable type":"ThreadExample",
+                    "variable static":false,
+                    "variable access":"private"
+                }
+            ],
+            "method":[
+                {
+                    "method name":"StartHandler",
+                    "method return":"",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[ThreadExample]"
+                },
+                {
+                    "method name":"handle",
+                    "method return":"void",
+                    "method static":false,
+                    "method abstract":false,
+                    "method access":"public",
+                    "method arg":"[Event]"
+                }
+            ]
         }
     ]
 }

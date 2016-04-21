@@ -229,7 +229,7 @@ public class FileManager implements AppFileComponent {
 	is.close();
 	return json;
     }
-    public void exportCode(AppDataComponent data) throws IOException{
+    public void exportCode(AppDataComponent data, String filePath) throws IOException{
         DataManager dataManager = (DataManager) data;
         ArrayList<UMLClass> classList = dataManager.getClassList();
         PrintWriter pw;
@@ -237,7 +237,7 @@ public class FileManager implements AppFileComponent {
             ArrayList<Variable> varList = classList.get(i).getVariables();
             ArrayList<Method> metList = classList.get(i).getMethods();
             
-            pw = new PrintWriter("./work/exportedCode/" + classList.get(i).getClassName());
+            pw = new PrintWriter("./" + filePath + "/" +classList.get(i).getClassName());
             
             pw.write("package " + classList.get(i).getPackageName() + ";\n");
             pw.write("public class " + classList.get(i).getClassName() + "{\n");
@@ -295,13 +295,19 @@ public class FileManager implements AppFileComponent {
             a.setClassName(classJso.getString("class name"));
 
             a.setPackageName(classJso.getString("package name"));
-
-            
-            //a.setParent(classJso.getString("parent"));
+            UMLClass parent = null;
+            if(classJso.containsKey("parent")){
+                String parentName = classJso.getString("parent");
+                for(int z = 0; z < hello.size(); z++){
+                    if(hello.get(z).getClassName().equals(parentName)){
+                        parent = hello.get(z);
+                    }
+                }
+            }
             a.setClassNameText(classJso.getString("class name text"));
             a.setVariableNameText(classJso.getString("variable name text"));
             a.setMethodNameText(classJso.getString("method name text"));
-            
+            a.setParent(parent);
             double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
             double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
             
@@ -337,11 +343,17 @@ public class FileManager implements AppFileComponent {
     }
     private void loadClass(JsonArray jsonArray, DataManager dataManager){
         for(int i = 0; i < jsonArray.size(); i++){
+            UMLClass parent = null;
             JsonObject classJso = jsonArray.getJsonObject(i);
             String className = classJso.getString("class name");
 
             String packageName = classJso.getString("package name");
-            String parentName = classJso.getString("parent");
+            
+            if(classJso.containsKey("parent")){
+                String parentName = classJso.getString("parent");
+                System.out.println(parentName);
+                parent = dataManager.findParent(parentName);
+            }
             String classNameText = classJso.getString("class name text");
             String variableNameText = classJso.getString("variable name text");
             String methodNameText = classJso.getString("method name text");
@@ -349,8 +361,8 @@ public class FileManager implements AppFileComponent {
             double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
             double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
             
-            //dataManager.makeClass(className, packageName, parentName,classNameText, 
-                    //variableNameText, methodNameText, x, y);
+            dataManager.makeClass(className, packageName, parent, classNameText, 
+                    variableNameText, methodNameText, x, y);
             JsonArray variableArray = classJso.getJsonArray("variable");
             JsonArray methodArray = classJso.getJsonArray("method");
             

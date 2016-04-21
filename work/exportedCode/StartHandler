@@ -1,8 +1,0 @@
-package ;
-public class StartHandler{
-	private ThreadExample app;
-	public  StartHandler(ThreadExample)
-	}
-	public void handle(Event)
-	}
-}

@@ -28,6 +28,9 @@ public class TestLoad {
         }
         for(int i = 0; i < cList.size(); i++){
             System.out.println(cList.get(i).getClassName());
+            if(cList.get(i).getParent() != null){
+                System.out.println(cList.get(i).getParent().getClassName());
+            }
             for(int x = 0; x < cList.get(i).getVariables().size(); x++){
                 ArrayList<Variable> varList = cList.get(i).getVariables();
                 System.out.println(varList.get(x).getType() + " " + varList.get(x).getName());

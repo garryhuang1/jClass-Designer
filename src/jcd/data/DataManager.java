@@ -66,7 +66,7 @@ public class DataManager implements AppDataComponent {
             nClass.setNewCoordinate(e.getSceneX(), e.getSceneY()/2);
         });
     }
-    public void makeClass(String cName, String pName,UMLClass parent, String cNameText,
+    public void makeClass(String cName, String pName, UMLClass parent, String cNameText,
             String vNameText, String mNameText, double initX, double initY){
         UMLClass nClass = new UMLClass(initX, initY);
         classList.add(nClass);
@@ -105,7 +105,14 @@ public class DataManager implements AppDataComponent {
      * tags, like html, head, and body such that the user can begin editing a
      * page.
      */
-   
+   public UMLClass findParent(String parentName){
+       for(int i = 0; i < classList.size(); i++){
+           if(classList.get(i).getClassName().equals(parentName)){
+               return classList.get(i);
+           }
+       }
+       return null;
+   }
     @Override
     public void reset() {
         Workspace workspace = (Workspace) app.getWorkspaceComponent();

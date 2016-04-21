@@ -174,4 +174,9 @@ public class TestOne {
         int end = testList.get(0).getMethods().get(0).getArg().toString().length();
         assertEquals("Stage", testList.get(0).getMethods().get(0).getArg().toString().substring(1, end-1));
     }
+    @Test
+    public void checkParent(){
+        System.out.println("* Check parent");
+        assertEquals(null, testList.get(0).getParent());
+    }
 }
