@@ -67,7 +67,7 @@ public class DataManager implements AppDataComponent {
         });
     }
     public void makeClass(String cName, String pName, UMLClass parent, String cNameText,
-            String vNameText, String mNameText, double initX, double initY){
+            String vNameText, String mNameText, double initX, double initY, String cType){
         UMLClass nClass = new UMLClass(initX, initY);
         classList.add(nClass);
         nClass.setClassName(cName);
@@ -76,6 +76,7 @@ public class DataManager implements AppDataComponent {
         nClass.setClassNameText(cNameText);
         nClass.setVariableNameText(vNameText);
         nClass.setMethodNameText(mNameText);
+        nClass.setClassType(cType);
         
         nClass.getTextBox().setOnMousePressed(e->{
             if(app.getGUI().getAppPane().getCursor().toString().equals("DEFAULT")){

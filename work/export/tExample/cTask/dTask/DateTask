@@ -1,5 +1,5 @@
 package tExample.cTask.dTask;
-public class DateTask extends ThreadExample{
+public class DateTask extends TestAbstract{
 	private ThreadExample app;
 	private Date now;
 	public  DateTask(ThreadExample)

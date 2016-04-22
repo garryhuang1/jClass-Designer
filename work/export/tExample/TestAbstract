@@ -1,0 +1,3 @@
+package tExample;
+public abstract class TestAbstract{
+}

@@ -1,0 +1,6 @@
+package tExample;
+public interface TestInterface{
+	public int interfaceVar;
+	public void interfaceMet(String)
+	}
+}

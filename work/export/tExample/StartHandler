@@ -1,5 +1,5 @@
-package tExample.cTask;
-public class CounterTask implements ThreadExample{
+package tExample;
+public class StartHandler implements ThreadExample{
 	private Stage window;
 	private BorderPane appPane;
 	private FlowPane topPane;
@@ -13,7 +13,6 @@ public class CounterTask implements ThreadExample{
 	private Task counterTask;
 	private boolean work;
 	private ThreadExample app;
-	private int counter;
 	public void start(Stage)
 	}
 	public void startWork()
@@ -37,8 +36,8 @@ public class CounterTask implements ThreadExample{
 	}
 	public static void main(String[])
 	}
-	public  CounterTask(ThreadExample)
+	public  StartHandler(ThreadExample)
 	}
-	protected void call()
+	public void handle(Event)
 	}
 }

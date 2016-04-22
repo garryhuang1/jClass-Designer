@@ -7,6 +7,8 @@ package jcd.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.geometry.Point2D;
+import javafx.scene.shape.Line;
 import jcd.file.FileManager;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,6 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -25,6 +28,87 @@ public class TestOne {
     public TestOne(){
         FileManager fileManager = new FileManager();
         UMLClass tExample = new UMLClass(100,0);
+        UMLClass cTask = new UMLClass(300, 0);
+        UMLClass dTask = new UMLClass(500, 0);
+        UMLClass pHandler = new UMLClass(100, 400);
+        UMLClass sHandler = new UMLClass(300, 400);
+        
+        tExample.setPackageName("tExample");
+        cTask.setPackageName("tExample.cTask");
+        dTask.setPackageName("tExample.cTask.dTask");
+        pHandler.setPackageName("tExample");
+        sHandler.setPackageName("tExample");
+        
+        tExample.setClassName("ThreadExample");
+        cTask.setClassName("CounterTask");
+        cTask.setParent(tExample);
+        dTask.setClassName("DateTask");
+        dTask.setParent(tExample);
+        pHandler.setClassName("PauseHandler");
+        pHandler.setParent(tExample);
+        sHandler.setClassName("StartHandler");
+        sHandler.setParent(tExample);
+        
+        
+        //----------------------------COUNTER TASK--------------------------
+        Variable app = new Variable();
+        app.setName("app");
+        app.setType("ThreadExample");
+        cTask.addVariable(app);
+        
+        Variable counter = new Variable();
+        counter.setName("counter");
+        counter.setType("int");
+        cTask.addVariable(counter);
+        
+        Method counterCounterTask = new Method();
+        counterCounterTask.setName("CounterTask");
+        counterCounterTask.setReturn("");
+        counterCounterTask.addArg("ThreadExample");
+        cTask.addMethod(counterCounterTask);
+        
+        Method counterCall = new Method();
+        counterCall.setName("call");
+        counterCall.setAccess("protected");
+        cTask.addMethod(counterCall);
+        //----------------------------DATE TASK-----------------------------------
+        dTask.addVariable(app);
+        
+        Variable now = new Variable();
+        now.setName("now");
+        now.setType("Date");
+        dTask.addVariable(now);
+        
+        Method dateTaskMethod = new Method();
+        dateTaskMethod.setName("DateTask");
+        dateTaskMethod.setReturn("");
+        dateTaskMethod.addArg("ThreadExample");
+        dTask.addMethod(dateTaskMethod);
+        
+        dTask.addMethod(counterCall);
+        //-----------------------------PAUSE HANDLER----------------------------------
+        pHandler.addVariable(app);
+        
+        Method pauseHandler = new Method();
+        pauseHandler.setName("PauseHandler");
+        pauseHandler.setReturn("");
+        pauseHandler.addArg("ThreadExample");
+        pHandler.addMethod(pauseHandler);
+        
+        Method handle = new Method();
+        handle.setName("handle");
+        handle.addArg("Event");
+        pHandler.addMethod(handle);
+        //----------------------------START HANDLER---------------------------------------
+        sHandler.addVariable(app);
+        
+        Method startHandler = new Method();
+        startHandler.setName("StartHandler");
+        startHandler.setReturn("");
+        startHandler.addArg("ThreadExample");
+        sHandler.addMethod(startHandler);
+        
+        sHandler.addMethod(handle);
         tExample.setClassName("ThreadExample");
         
         Variable window = new Variable();
@@ -144,6 +228,10 @@ public class TestOne {
         
         
         umlList.add(tExample);
+        umlList.add(cTask);
+        umlList.add(dTask);
+        umlList.add(pHandler);
+        umlList.add(sHandler);
 
         try{
             fileManager.saveData(umlList, "./work/DesignSaveTest");
@@ -152,6 +240,11 @@ public class TestOne {
         catch(IOException ioe){
             ioe.printStackTrace();
         }
+    }
+    @Test
+    public void checkPath(){
+        System.out.println("* Check file destination");
+        assertEquals("./work/DesignSaveTest", "./work/DesignSaveTest");
     }
     @Test
     public void checkVar1(){
@@ -175,8 +268,35 @@ public class TestOne {
         assertEquals("Stage", testList.get(0).getMethods().get(0).getArg().toString().substring(1, end-1));
     }
     @Test
-    public void checkParent(){
-        System.out.println("* Check parent");
-        assertEquals(null, testList.get(0).getParent());
+    public void checkPoint1(){
+        System.out.println("* Check point 1");
+        Point2D a = new Point2D(300, -150);
+        assertEquals(a, testList.get(1).getPoint().get(0));
+    }
+    @Test
+    public void checkPoint2(){
+        System.out.println("* Check point 2");
+        Point2D a = new Point2D(450, -150);
+        assertEquals(a, testList.get(1).getPoint().get(1));
+    }
+    @Test
+    public void checkPoint3(){
+        System.out.println("* Check point 3");
+        Point2D a = new Point2D(150, 0);
+        assertEquals(a, testList.get(1).getPoint().get(2));
+    }
+    @Ignore
+    @Test
+    public void checkLine1(){
+        System.out.println("* Check line 1");
+        Line a = new Line(300, -150, 150, 0);
+        assertEquals(a, testList.get(1).getLine().get(0));
+    }
+    @Ignore
+    @Test
+    public void checkLine2(){
+        System.out.println("* Check line 2");
+        Line a = new Line(150, 0, 450, -150);
+        assertEquals(a, testList.get(1).getLine().get(1));
     }
 }

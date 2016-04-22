@@ -311,6 +311,9 @@ public class Workspace extends AppWorkspaceComponent {
             }
             else if(gui.getAppPane().getCursor().toString().equals("DEFAULT")){
                 try{
+                    double x = e.getSceneX();
+                    double y = e.getSceneY();
+                    System.out.println(x +" "+ y);
                     dataManager.getSelected().setSelected();
                 }
                 catch(Exception z){

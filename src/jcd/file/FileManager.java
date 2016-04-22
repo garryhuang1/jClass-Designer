@@ -161,6 +161,7 @@ public class FileManager implements AppFileComponent {
                     .add("class name", a.getClassName())
                     .add("package name", a.getPackageName())
                     .add("parent", a.getParent().getClassName())
+                    .add("type", a.getClassType())
                     .add("class name text", a.getClassText().getText())
                     .add("variable name text", a.getVariableText().getText())
                     .add("method name text", a.getMethodText().getText())
@@ -174,6 +175,7 @@ public class FileManager implements AppFileComponent {
             jso = Json.createObjectBuilder()
                     .add("class name", a.getClassName())
                     .add("package name", a.getPackageName())
+                    .add("type", a.getClassType())
                     .add("class name text", a.getClassText().getText())
                     .add("variable name text", a.getVariableText().getText())
                     .add("method name text", a.getMethodText().getText())
@@ -235,8 +237,7 @@ public class FileManager implements AppFileComponent {
         ArrayList<UMLClass> classList = dataManager.getClassList();
         PrintWriter pw;
         for(int i = 0; i < classList.size(); i++){
-            ArrayList<Variable> varList = classList.get(i).getVariables();
-            ArrayList<Method> metList = classList.get(i).getMethods();
+            
             String packageName = classList.get(i).getPackageName();
             String tempFilePath = filePath;
             do{
@@ -250,9 +251,7 @@ public class FileManager implements AppFileComponent {
                     packageName = packageName.substring(check+1, packageName.length());
                     tempFilePath += "/" + temp;
                 }
-            }while(packageName.isEmpty()==false);
-            System.out.println(tempFilePath);
-            System.out.println(filePath);
+            }while(packageName.isEmpty()==false);;
             File newFile = new File(tempFilePath);
             newFile.mkdir();
             pw = new PrintWriter( newFile + "/" + classList.get(i).getClassName());
@@ -260,13 +259,26 @@ public class FileManager implements AppFileComponent {
             if(!classList.get(i).getPackageName().isEmpty()){
                 pw.write("package " + classList.get(i).getPackageName() + ";\n");
             }
-            pw.write("public class " + classList.get(i).getClassName());
-            if(classList.get(i).getParent() != null){
+            if(classList.get(i).getClassType().equals("interface")){
+                pw.write("public interface " + classList.get(i).getClassName());
+            }
+            else if(classList.get(i).getClassType().equals("abstract")){
+                pw.write("public abstract class " + classList.get(i).getClassName());
+            }
+            else{
+                pw.write("public class " + classList.get(i).getClassName());
+            }
+            
+            if(classList.get(i).getParent() != null && !classList.get(i).getParent().getClassType().equals("interface")){
                 pw.write(" extends " + classList.get(i).getParent().getClassName());
+            }
+            if(classList.get(i).getParent() != null && classList.get(i).getParent().getClassType().equals("interface")){
+                pw.write(" implements " + classList.get(i).getParent().getClassName());
             }
                 pw.write("{\n");
             
-            
+            ArrayList<Variable> varList = classList.get(i).getVariables();
+            ArrayList<Method> metList = classList.get(i).getMethods();
             for(int x = 0; x < varList.size(); x++){
                 pw.write("\t" + varList.get(x).getAccess() + " ");
                 if(varList.get(x).getStatic() == true){
@@ -319,7 +331,10 @@ public class FileManager implements AppFileComponent {
             UMLClass a = new UMLClass(0,0);
             JsonObject classJso = jsonArray.getJsonObject(i);
             a.setClassName(classJso.getString("class name"));
-
+            a.setClassType(classJso.getString("type"));
+            double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
+            double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
+            a.setNewCoordinate(x, y);
             a.setPackageName(classJso.getString("package name"));
             UMLClass parent = null;
             if(classJso.containsKey("parent")){
@@ -334,10 +349,9 @@ public class FileManager implements AppFileComponent {
             a.setVariableNameText(classJso.getString("variable name text"));
             a.setMethodNameText(classJso.getString("method name text"));
             a.setParent(parent);
-            double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
-            double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
             
-            a.setNewCoordinate(x, y);
+            
+            
             JsonArray variableArray = classJso.getJsonArray("variable");
             JsonArray methodArray = classJso.getJsonArray("method");
             
@@ -372,23 +386,23 @@ public class FileManager implements AppFileComponent {
             UMLClass parent = null;
             JsonObject classJso = jsonArray.getJsonObject(i);
             String className = classJso.getString("class name");
-
+            double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
+            double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
+            String classType = classJso.getString("type");
             String packageName = classJso.getString("package name");
             
             if(classJso.containsKey("parent")){
                 String parentName = classJso.getString("parent");
-                System.out.println(parentName);
                 parent = dataManager.findParent(parentName);
             }
             String classNameText = classJso.getString("class name text");
             String variableNameText = classJso.getString("variable name text");
             String methodNameText = classJso.getString("method name text");
             
-            double x = Double.parseDouble(classJso.getJsonNumber("x").toString());
-            double y = Double.parseDouble(classJso.getJsonNumber("y").toString());
+            
             
             dataManager.makeClass(className, packageName, parent, classNameText, 
-                    variableNameText, methodNameText, x, y);
+                    variableNameText, methodNameText, x, y, classType);
             JsonArray variableArray = classJso.getJsonArray("variable");
             JsonArray methodArray = classJso.getJsonArray("method");
             

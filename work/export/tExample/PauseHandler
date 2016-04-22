@@ -1,6 +1,12 @@
 package tExample;
-public class PauseHandler extends ThreadExample{
+public class PauseHandler implements TestInterface{
+	public int interfaceVar;
+	public int interfaceVar;
 	private ThreadExample app;
+	public void interfaceMet(String)
+	}
+	public void interfaceMet(String)
+	}
 	public  PauseHandler(ThreadExample)
 	}
 	public void handle(Event)

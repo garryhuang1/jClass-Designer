@@ -2,8 +2,23 @@
 {
     "class":[
         {
+            "class name":"TestAbstract",
+            "package name":"tExample",
+            "type":"abstract",
+            "class name text":"TestAbstract",
+            "variable name text":"",
+            "method name text":"",
+            "x":600.0,
+            "y":600.0,
+            "variable":[
+            ],
+            "method":[
+            ]
+        },
+        {
             "class name":"ThreadExample",
             "package name":"tExample",
+            "type":"interface",
             "class name text":"ThreadExample",
             "variable name text":"",
             "method name text":"",
@@ -178,6 +193,7 @@
             "class name":"CounterTask",
             "package name":"tExample.cTask",
             "parent":"ThreadExample",
+            "type":"",
             "class name text":"CounterTask",
             "variable name text":"",
             "method name text":"",
@@ -219,7 +235,8 @@
         {
             "class name":"DateTask",
             "package name":"tExample.cTask.dTask",
-            "parent":"ThreadExample",
+            "parent":"TestAbstract",
+            "type":"",
             "class name text":"DateTask",
             "variable name text":"",
             "method name text":"",
@@ -261,7 +278,7 @@
         {
             "class name":"PauseHandler",
             "package name":"tExample",
-            "parent":"ThreadExample",
+            "type":"",
             "class name text":"PauseHandler",
             "variable name text":"",
             "method name text":"",
@@ -296,8 +313,9 @@
         },
         {
             "class name":"StartHandler",
-            "package name":"",
+            "package name":"tExample",
             "parent":"ThreadExample",
+            "type":"",
             "class name text":"StartHandler",
             "variable name text":"",
             "method name text":"",

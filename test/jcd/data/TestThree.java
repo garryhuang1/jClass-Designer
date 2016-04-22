@@ -3,34 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jcd.test_bed;
-
+package jcd.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import jcd.JClassDesigner;
-import jcd.data.DataManager;
-import jcd.data.Method;
-import jcd.data.UMLClass;
-import jcd.data.Variable;
+import javafx.geometry.Point2D;
+import javafx.scene.shape.Line;
 import jcd.file.FileManager;
-import jcf.AppTemplate;
-import jcf.components.AppDataComponent;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
  * @author Garry Huang
  */
-public class TestSave{
+public class TestThree {
     
-    public static void main(String[] args){
+    ArrayList<UMLClass> umlList = new ArrayList<UMLClass>();
+    ArrayList<UMLClass> testList = new ArrayList<UMLClass>();
+    public TestThree(){
        FileManager fileManager = new FileManager();
         UMLClass tExample = new UMLClass(100,0);
         UMLClass cTask = new UMLClass(300, 0);
         UMLClass dTask = new UMLClass(500, 0);
         UMLClass pHandler = new UMLClass(100, 400);
         UMLClass sHandler = new UMLClass(300, 400);
+        UMLClass testAbstract = new UMLClass(600, 600);
         
+        testAbstract.setPackageName("tExample");
+        testAbstract.setClassName("TestAbstract");
+        testAbstract.setClassType("abstract");
+        
+        tExample.setClassType("interface");
         tExample.setPackageName("tExample");
         cTask.setPackageName("tExample.cTask");
         dTask.setPackageName("tExample.cTask.dTask");
@@ -41,9 +50,8 @@ public class TestSave{
         cTask.setClassName("CounterTask");
         cTask.setParent(tExample);
         dTask.setClassName("DateTask");
-        dTask.setParent(tExample);
+        dTask.setParent(testAbstract);
         pHandler.setClassName("PauseHandler");
-        pHandler.setParent(tExample);
         sHandler.setClassName("StartHandler");
         sHandler.setParent(tExample);
         
@@ -107,7 +115,8 @@ public class TestSave{
         sHandler.addMethod(startHandler);
         
         sHandler.addMethod(handle);
-        //-----------------------------THREAD EXAMPLE--------------------------------------------
+        tExample.setClassName("ThreadExample");
+        
         Variable window = new Variable();
         window.setName("window");
         window.setType("Stage");
@@ -223,35 +232,84 @@ public class TestSave{
         main.addArg("String[]");
         tExample.addMethod(main);
         
-        ArrayList<UMLClass> umlList = new ArrayList<UMLClass>();
+        umlList.add(testAbstract);
         umlList.add(tExample);
         umlList.add(cTask);
         umlList.add(dTask);
         umlList.add(pHandler);
         umlList.add(sHandler);
+        
+        
         try{
             fileManager.saveData(umlList, "./work/DesignSaveTest");
+            testList = fileManager.loadData("./work/DesignSaveTest");
         }
         catch(IOException ioe){
             ioe.printStackTrace();
         }
-
-        String filePath = "./hello";
-        String packageName = "jtest.test1";
-        do{
-            int check = packageName.indexOf('.');
-            if(check == -1){
-                filePath += "/" + packageName;
-                packageName = "";
-            }
-            else{
-                String temp = packageName.substring(0, check);
-                packageName = packageName.substring(check+1, packageName.length());
-                filePath += "/" + temp;
-            }
-            
-        }while(packageName.isEmpty()==false);
-        System.out.println(filePath);
     }
     
+    @Test //UNSURE OF HOW TO JUNIT TEST FILE PATH FOR PACKAGE SAVING
+    public void checkPath(){
+        System.out.println("* Check file destination");
+        assertEquals("./work/DesignSaveTest", "./work/DesignSaveTest");
+    }
+    @Test
+    public void checkVar1(){
+        System.out.println("* Check variable name 1");
+        assertEquals("window", testList.get(2).getVariables().get(0).getName());
+    }
+    @Test
+    public void checkVar2(){
+        System.out.println("* Check variable type 1");
+        assertEquals("Stage", testList.get(2).getVariables().get(0).getType());
+    }
+
+    @Test
+    public void checkMet1(){
+        System.out.println("* Check Method Name 1");
+        assertEquals("start", testList.get(2).getMethods().get(0).getName());
+    }
+
+    @Test
+    public void checkMet2(){
+        System.out.println("* Check method argument");
+        int end = testList.get(2).getMethods().get(0).getArg().toString().length();
+        assertEquals("Stage", testList.get(2).getMethods().get(0).getArg().toString().substring(1, end-1));
+    }
+
+    @Test
+    public void checkPoint1(){
+        System.out.println("* Check point 1");
+        Point2D a = new Point2D(300, -150);
+        assertEquals(a, testList.get(2).getPoint().get(0));
+    }
+
+    @Test
+    public void checkPoint2(){
+        System.out.println("* Check point 2");
+        Point2D a = new Point2D(450, -150);
+        assertEquals(a, testList.get(2).getPoint().get(1));
+    }
+
+    @Test
+    public void checkPoint3(){
+        System.out.println("* Check point 3");
+        Point2D a = new Point2D(150, 0);
+        assertEquals(a, testList.get(2).getPoint().get(2));
+    }
+    @Ignore
+    @Test
+    public void checkLine1(){
+        System.out.println("* Check line 1");
+        Line a = new Line(300, -150, 150, 0);
+        assertEquals(a, testList.get(1).getLine().get(0));
+    }
+    @Ignore
+    @Test
+    public void checkLine2(){
+        System.out.println("* Check line 2");
+        Line a = new Line(150, 0, 450, -150);
+        assertEquals(a, testList.get(1).getLine().get(1));
+    }
 }

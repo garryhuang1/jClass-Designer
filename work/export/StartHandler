@@ -1,7 +1,0 @@
-public class StartHandler extends ThreadExample{
-	private ThreadExample app;
-	public  StartHandler(ThreadExample)
-	}
-	public void handle(Event)
-	}
-}
